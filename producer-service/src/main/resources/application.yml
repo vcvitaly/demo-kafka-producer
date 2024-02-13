@@ -1,0 +1,18 @@
+server:
+  port: 8080
+
+kafka:
+  producer:
+    topic: topic1
+
+spring:
+  kafka:
+    producer:
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    bootstrap-servers: localhost:9094
+#    producer:
+#      acks: all
+
+logging:
+  level:
+    org.springframework.kafka: DEBUG

@@ -1,0 +1,35 @@
+plugins {
+	id 'java'
+	id 'maven-publish'
+}
+
+java {
+	sourceCompatibility = '21'
+}
+
+subprojects {
+	apply plugin: 'java'
+	apply plugin: 'maven-publish'
+
+	group = 'io.github.vcvitaly'
+	version = '0.0.1-SNAPSHOT'
+
+	repositories {
+		mavenLocal()
+		mavenCentral()
+	}
+
+	publishing {
+		publications {
+			mavenJava(MavenPublication) {
+				from components.java
+			}
+		}
+	}
+
+	dependencies {
+		compileOnly "org.projectlombok:lombok:1.18.30"
+		annotationProcessor "org.projectlombok:lombok:1.18.30"
+	}
+}
+
