@@ -1,3 +1,3 @@
 package io.github.vcvitaly.producercommon;
 
-public record TestDto(Integer id, String data) {}
+public record TestDto(Integer id, TestType type, String data) {}
