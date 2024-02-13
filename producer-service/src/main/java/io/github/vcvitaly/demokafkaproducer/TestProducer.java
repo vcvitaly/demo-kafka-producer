@@ -25,26 +25,24 @@ public class TestProducer {
                         @Value("${kafka.producer.topic}") String topic) {
         this.template = template;
         this.topic = topic;
-        Executors.newSingleThreadScheduledExecutor().schedule(this::printStats, 10, TimeUnit.SECONDS);
+        Executors.newSingleThreadScheduledExecutor().scheduleWithFixedDelay(this::printStats, 0, 10, TimeUnit.SECONDS);
     }
 
     public void produce() {
-        for (int i = 0; i < 1; i++) {
-            template.send(topic, new TestDto(i, TestType.CREATE, String.valueOf(i))).whenComplete((res, e) -> {
-                if (e != null) {
-                    log.error("Error while producing: ", e);
-                } else {
-                    adderCreated.increment();
-                }
-            });
-            template.send(topic, new TestDto(i, TestType.UPDATE, String.valueOf(i))).whenComplete((res, e) -> {
-                if (e != null) {
-                    log.error("Error while producing: ", e);
-                } else {
-                    adderUpdated.increment();
-                }
-            });
+        for (int i = 0; i < 10_000; i++) {
+            produceTestDto(i, TestType.CREATE, adderCreated);
+            produceTestDto(i, TestType.UPDATE, adderUpdated);
         }
+    }
+
+    private void produceTestDto(int i, TestType type, LongAdder adder) {
+        template.send(topic, new TestDto(i, type, String.valueOf(i))).whenComplete((res, e) -> {
+            if (e != null) {
+                log.error("Error while producing: ", e);
+            } else {
+                adder.increment();
+            }
+        });
     }
 
     private void printStats() {
