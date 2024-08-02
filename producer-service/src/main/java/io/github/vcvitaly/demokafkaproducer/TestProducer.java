@@ -31,7 +31,6 @@ public class TestProducer {
     public void produce() {
         for (int i = 0; i < 10_000; i++) {
             produceTestDto(i, TestType.CREATE, adderCreated);
-            produceTestDto(i, TestType.UPDATE, adderUpdated);
         }
     }
 
