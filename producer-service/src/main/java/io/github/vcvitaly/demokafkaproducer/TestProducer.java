@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.LongAdder;
@@ -28,9 +27,9 @@ public class TestProducer {
         Executors.newSingleThreadScheduledExecutor().scheduleWithFixedDelay(this::printStats, 0, 10, TimeUnit.SECONDS);
     }
 
-    public void produce() {
-        for (int i = 0; i < 10_000; i++) {
-            produceTestDto(i, TestType.CREATE, adderCreated);
+    public void produce(int count) {
+        for (int i = 0; i < count; i++) {
+            produceTestDto((int) (System.currentTimeMillis() / 1000), TestType.CREATE, adderCreated);
         }
     }
 
