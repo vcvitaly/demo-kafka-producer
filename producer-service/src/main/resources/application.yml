@@ -3,7 +3,8 @@ server:
 
 kafka:
   producer:
-    topic: topic1
+    topic1: topic1
+    topic2: topic2
 
 spring:
   kafka:
