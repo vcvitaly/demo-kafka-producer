@@ -10,7 +10,16 @@ import org.springframework.kafka.config.TopicBuilder;
 public class KafkaConfig {
 
     @Bean
-    public NewTopic topic(@Value("${kafka.producer.topic}") String topic) {
+    public NewTopic topic1(@Value("${kafka.producer.topic1}") String topic) {
+        return getNewTopic(topic);
+    }
+
+    @Bean
+    public NewTopic topic2(@Value("${kafka.producer.topic2}") String topic) {
+        return getNewTopic(topic);
+    }
+
+    private static NewTopic getNewTopic(String topic) {
         return TopicBuilder.name(topic)
                 .partitions(1)
                 .replicas(1)

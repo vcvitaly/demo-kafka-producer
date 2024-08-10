@@ -17,6 +17,11 @@ public class SecondProducer extends BaseProducer<TimestampedDto> {
     }
 
     @Override
+    public void produce(TimestampedDto payload) {
+        throw new IllegalStateException("Something went wrong");
+    }
+
+    @Override
     protected Logger getLog() {
         return log;
     }
