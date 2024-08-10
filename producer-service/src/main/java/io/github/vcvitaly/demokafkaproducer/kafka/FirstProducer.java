@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class FirstProducer extends BaseProducer<TestDto> {
 
-    public FirstProducer(KafkaTemplate<String, TestDto> template,
+    public FirstProducer(KafkaTemplate<String, String> template,
                          @Value("${kafka.producer.topic1}") String topic) {
         super(template, topic);
     }

@@ -16,7 +16,7 @@ public class DownstreamService {
     private final FirstProducer firstProducer;
     private final SecondProducer secondProducer;
 
-    @Transactional
+    @Transactional("kafkaTransactionManager")
     public void produce() {
         final long currentTimeMillis = System.currentTimeMillis();
         firstProducer.produce(new TestDto((int) (currentTimeMillis / 1000), TestType.CREATE, String.valueOf(currentTimeMillis)));

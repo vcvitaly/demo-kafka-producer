@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class SecondProducer extends BaseProducer<TimestampedDto> {
 
-    public SecondProducer(KafkaTemplate<String, TimestampedDto> template,
+    public SecondProducer(KafkaTemplate<String, String> template,
                           @Value("${kafka.producer.topic2}") String topic) {
         super(template, topic);
     }

@@ -10,6 +10,7 @@ spring:
   kafka:
     producer:
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      transaction-id-prefix: tx-id
     bootstrap-servers: localhost:9092
 #    producer:
 #      acks: all
