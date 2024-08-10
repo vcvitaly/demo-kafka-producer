@@ -19,12 +19,6 @@ public class TestController {
     @PostMapping("/run")
     @ResponseStatus(HttpStatus.OK)
     public void runBatches() {
-        Executors.newSingleThreadExecutor().submit(() -> {
-            try {
-                testProducer.produce();
-            } catch (Exception e) {
-                log.error("Error: ", e);
-            }
-        });
+        testProducer.produce();
     }
 }
