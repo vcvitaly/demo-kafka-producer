@@ -1,5 +1,6 @@
 package io.github.vcvitaly.demokafkaproducer;
 
+import java.util.concurrent.CompletableFuture;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -19,7 +20,7 @@ public class TestController {
     @PostMapping("/run")
     @ResponseStatus(HttpStatus.OK)
     public void runBatches() {
-        Executors.newSingleThreadExecutor().submit(() -> {
+        CompletableFuture.runAsync(() -> {
             try {
                 testProducer.produce();
             } catch (Exception e) {

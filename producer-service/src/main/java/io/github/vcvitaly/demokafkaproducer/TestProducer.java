@@ -36,13 +36,14 @@ public class TestProducer {
     }
 
     private void produceTestDto(int i, TestType type, LongAdder adder) {
-        template.send(topic, new TestDto(i, type, String.valueOf(i))).whenComplete((res, e) -> {
-            if (e != null) {
-                log.error("Error while producing: ", e);
-            } else {
-                adder.increment();
-            }
-        });
+        template.send(topic, new TestDto(i, type, String.valueOf(i)))
+                .whenComplete((res, e) -> {
+                    if (e != null) {
+                        log.error("Error while producing: ", e);
+                    } else {
+                        adder.increment();
+                    }
+                });
     }
 
     private void printStats() {
