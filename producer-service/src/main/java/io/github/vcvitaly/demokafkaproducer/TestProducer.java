@@ -2,12 +2,14 @@ package io.github.vcvitaly.demokafkaproducer;
 
 import io.github.vcvitaly.producercommon.TestDto;
 import io.github.vcvitaly.producercommon.TestType;
+import java.util.concurrent.CompletableFuture;
+import java.util.stream.IntStream;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Component;
 
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.LongAdder;
@@ -29,14 +31,18 @@ public class TestProducer {
     }
 
     public void produce() {
-        for (int i = 0; i < 10_000; i++) {
+        final int count = 10_000;
+        final CompletableFuture[] cfs = IntStream.range(0, count)
+                .mapToObj(i -> produceTestDto(i, TestType.CREATE, adderCreated))
+                .toArray(CompletableFuture[]::new);
+        CompletableFuture.allOf(cfs).join();
+        /*for (int i = 0; i < 10_000; i++) {
             produceTestDto(i, TestType.CREATE, adderCreated);
-            produceTestDto(i, TestType.UPDATE, adderUpdated);
-        }
+        }*/
     }
 
-    private void produceTestDto(int i, TestType type, LongAdder adder) {
-        template.send(topic, new TestDto(i, type, String.valueOf(i)))
+    private CompletableFuture<SendResult<String, TestDto>> produceTestDto(int i, TestType type, LongAdder adder) {
+        return template.send(topic, new TestDto(i, type, String.valueOf(i)))
                 .whenComplete((res, e) -> {
                     if (e != null) {
                         log.error("Error while producing: ", e);

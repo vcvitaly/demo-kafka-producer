@@ -20,12 +20,17 @@ public class TestController {
     @PostMapping("/run")
     @ResponseStatus(HttpStatus.OK)
     public void runBatches() {
-        CompletableFuture.runAsync(() -> {
+        /*CompletableFuture.runAsync(() -> {
             try {
                 testProducer.produce();
             } catch (Exception e) {
                 log.error("Error: ", e);
             }
-        });
+        });*/
+        try {
+            testProducer.produce();
+        } catch (Exception e) {
+            log.error("Error: ", e);
+        }
     }
 }
